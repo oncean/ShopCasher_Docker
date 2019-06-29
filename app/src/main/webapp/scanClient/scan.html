@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>扫描商品</title>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/quagga/quagga.js"></script>
+</head>
+<body>
+<div id="canvanCode" style=""></div>
+<div id="codelist"></div>
+<div id="log"></div>
+<script>
+    //.js获取url中传递的参数
+    function getQueryString(name) {
+        var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+        if (result == null || result.length < 1) {
+            return "";
+        }
+        return result[1];
+    }
+
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+
+    //ResultCollector将支持您和我在执行过程中帮助压缩错误。
+    var resultCollector = Quagga.ResultCollector.create({
+        capture: true, // keep track of the image producing this result
+        capacity: 20,  // maximum number of results to store
+        blacklist: [   // list containing codes which should not be recorded
+            {code: "3574660239843", format: "ean_13"}],
+        filter: function (codeResult) {
+            // only store results which match this constraint
+            // returns true/false
+            // e.g.: return codeResult.format === "ean_13";
+            return true;
+        }
+    });
+    Quagga.registerResultCollector(resultCollector);
+    Quagga.init({
+        locate: true,   //能够在给定的图像中定位条形码
+        frequency: 1,  //每秒的最大扫描次数。
+        inputStream: {
+            name: "Live",
+            type: "LiveStream",
+            target: document.querySelector('#canvanCode')    // Or '#yourElement' (optional)
+        },
+        decoder: {
+            readers: ["ean_reader", 'code_39_reader'],
+            debug: {
+                drawBoundingBox: false,
+                showFrequency: false,
+                drawScanline: false,
+                showPattern: false
+            },
+            multiple: false
+        },
+        locator: {
+            halfSample: true,
+            patchSize: "small" // x-small, small, medium, large, x-large
+        }
+    }, function (err) {
+        if (err) {
+            alert("info" + err);
+            return
+        }
+        console.log("Initialization finished. Ready to start");
+        Quagga.start();
+        
+
+//            Quagga.onProcessed(function(data){
+//                console.log(data)
+//            })
+        Quagga.onDetected(function (data) {
+            console.info(data);
+            try {
+                var connectCode = getQueryString("connectCode");
+                var shopId = getQueryString("shopId");
+                var req = {
+                    "connectCode": connectCode,
+                    "code": data.codeResult.code,
+                    "shopId": shopId
+                };
+
+                $.ajax({
+                    url: "/api/scan/sendCodeToShop",
+                    method: "POST",
+                    dataType: "json",
+                    data : JSON.stringify(req),
+                    contentType : 'application/json',
+                    success: function (result) {
+                    },
+                    error: function (error) {
+                        alert(JSON.stringify(error));
+                    }
+                });
+
+            } catch (e) {
+                alert(JSON.stringify(e));
+            }
+        })
+    });
+
+
+    function fomTime() {
+        var i = setInterval(function () {
+            num++;
+            var date = new Date();
+            document.write(date.getMinutes() + ':' + date.getSeconds() + ':' + date.getMilliseconds() + '<br>');
+            if (num > 10)
+                clearInterval(i);
+        }, 2000);
+    }
+
+    /*function playSound() {
+        var soundUrl = "/src/scan/di.wav";
+        var borswer = window.navigator.userAgent.toLowerCase();
+        if (borswer.indexOf("ie") >= 0) {
+            //IE内核浏览器
+            var strEmbed = "<embed name='embedPlay' src=" + soundUrl + " autostart='true' hidden='true' loop='false'></embed>";
+            if ($("body").find("embed").length <= 0)
+                $("body").append(strEmbed);
+            var embed = document.embedPlay;
+
+            //浏览器不支持 audion，则使用 embed 播放
+            embed.volume = 100;
+            //embed.play();这个不需要
+        } else {
+            //非IE内核浏览器
+            var strAudio = "<audio id='audioPlay' src='" + soundUrl + "' hidden='true'>";
+            if ($("body").find("audio").length <= 0)
+                $("body").append(strAudio);
+            var audio = document.getElementById("audioPlay");
+
+            //浏览器支持
+            setTimeout(function () {
+
+                audio.play().catch(function (e) {
+
+                    alert(e.message);
+
+                    alert("", e.description);
+
+                });
+
+            }, 150);
+            audio.play();
+        }
+    }*/
+
+    function printLog(log) {
+        $("#log").html($("#log").html("<div>" + log + "</div> "));
+    }
+</script>
+</body>
+</html>

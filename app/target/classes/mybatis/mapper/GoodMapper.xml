@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wangsheng.ShopCasher.mybatis.GoodMapper">
+	<sql id="queryGoodSql">
+		A.`shopId` = #{req.shopId}
+		<if test="req.catogeryType != null and req.catogeryType != ''">
+			<if test="req.catogeryType == 1">
+				AND B.`parentId` = #{req.catogeryId}
+			</if>
+			<if test="req.catogeryType == 2">
+				AND A.`category` = #{req.catogeryId}
+			</if>
+		</if>
+		<if test="req.goodCode != null and req.goodCode != ''">
+			AND A.`code` LIKE '%'||#{req.goodCode}||'%'
+		</if>
+		<if test="req.goodName != null and req.goodName != ''">
+			AND A.`name` LIKE '%'||#{req.goodName}||'%'
+		</if>
+	</sql>
+
+	<select id="queryGood" parameterType="com.wangsheng.ShopCasher.good.info.QueryGoodReq"
+		resultType="com.wangsheng.ShopCasher.good.data.GoodInfo">
+		SELECT A.*
+		FROM t_good A LEFT JOIN t_catogery B ON
+		A.`category` = B.id
+		WHERE
+		<include refid="queryGoodSql"></include>
+		LIMIT #{req.page.pageNo},#{req.page.pageSize}
+	</select>
+
+	<select id="queryGoodCount" parameterType="com.wangsheng.ShopCasher.good.info.QueryGoodReq"
+		resultType="java.lang.Integer">
+		SELECT count(*)
+		FROM t_good A LEFT JOIN t_catogery B ON
+		A.`category` = B.id
+		WHERE
+		<include refid="queryGoodSql"></include>
+	</select>
+
+	<select id="querySuggestion" parameterType="com.wangsheng.ShopCasher.good.info.QuerySuggestGoodReq"
+		resultType="com.wangsheng.ShopCasher.good.data.GoodInfo">
+		SELECT A.*
+		FROM t_good A 
+		WHERE 
+		A.shopId = #{req.shopId} AND
+		(A.code like '%${req.value}%' OR A.name like '%${req.value}%')
+		LIMIT 0,#{req.totalNum}
+	</select>
+</mapper>
