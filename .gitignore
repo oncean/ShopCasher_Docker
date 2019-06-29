@@ -1,1 +1,3 @@
 dockerRunningFile/
+app/target/
+.DS_Store
