@@ -1,0 +1,154 @@
+a:focus, a:hover {
+  text-decoration: none;
+}
+
+.color-success {
+  color: #38b03f;
+}
+
+.color-error {
+  color: #ea644a;
+}
+
+.wang-large-title {
+  color: #464c5b;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.wang-mid-title {
+  color: #464c5b;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.wang-small-title {
+  color: #464c5b;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.wang-panel {
+  background-color: #ffffff;
+  padding: 20px;
+  height: 100%;
+}
+
+.wang-input-div {
+  height: 48px;
+  padding: 0 20px;
+  color: #8590a6;
+  border: none;
+  border-bottom: 1px solid #ebebeb;
+  border-radius: 0;
+}
+
+.wang-input-div > input {
+  font: 400 13.3333px Arial;
+  height: 48px;
+  line-height: 24px;
+  flex: 1;
+  padding: 0;
+  overflow: hidden;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+}
+
+.wang-form-button {
+  width: 80%;
+  margin: auto;
+  padding-bottom: 20px;
+}
+
+.wang-input {
+  font: 400 13.3333px Arial;
+  height: 48px;
+  line-height: 24px;
+  flex: 1;
+  padding: 0;
+  overflow: hidden;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+}
+
+.money {
+  color: #cd2727;
+}
+
+.hurgeMoney {
+  font-size: 2.5rem;
+  color: #cd2727;
+}
+
+.wang-nav {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(26, 26, 26, .1);
+  font-size: 15px;
+  line-height: 50px;
+  height: 50px;
+}
+
+.wang-nav > hr {
+  width: 100%;
+  margin-bottom: 0px;
+}
+
+.wang-nav-header {
+  font-size: 18px;
+  color: #0084ff;
+  float: left;
+}
+
+.wang-nav ul {
+  list-style: none;
+  padding-left: 0px;
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.wang-nav ul li {
+  float: left;
+  padding: 0 15px;
+  text-decoration: none;
+  color: #8590a6;
+}
+
+.wang-nav ul li:hover {
+  color: #444;
+}
+
+.wang-nav ul li > a {
+  color: inherit;
+}
+
+.wang-nav ul li.active {
+  color: #444;
+}
+
+.wang-nav ul li:first-child {
+  padding-left: 0;
+}
+
+.wang-h1 {
+  font-size: 16px;
+}
+
+/*垂直的竖线*/
+.wang-v-line {
+  width: 1px;
+  background-color: #e5e5e5;
+  height: 100%;
+}

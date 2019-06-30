@@ -1,34 +1,63 @@
 version: '3'
 services:
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./dockerRunningFile/logs/nginx:/var/log/nginx
+    depends_on:
+      - app-server
+      - app-front
   redis:
     # 指定镜像
-    container_name: v-redis
+    container_name: app-redis
+    restart: always
     image: redis:4
     command:
       # 执行的命令
       redis-server --requirepass root
   mysql:
-    container_name: v-mysql
+    container_name: app-mysql
     build: ./mysql
     restart: always
+    expose:
+      - "3306"
     environment:
       MYSQL_ROOT_PASSWORD: "root"
       MYSQL_ROOT_HOST: "%"
     volumes:  
       - ./dockerRunningFile/db/mysql:/var/lib/mysql
-  app:
-    build: ./app
-    working_dir: /app
+  app-server:
+    container_name: app-server
+    restart: always
+    build: 
+      context: ./app-server
+    working_dir: /app-server
     volumes:
-      - ./app:/app
+      - ./app-server:/app-server
       - ./settings-docker.xml:/root/.m2/settings-docker.xml
       - ./dockerRunningFile/maven/.m2/repository:/root/.m2/repository
     expose:
-      - "8080"
+      - "31134"
     ports:
       # 端口映射
       - 8080:8080
     depends_on:
       - redis
       - mysql
-    command: mvn clean spring-boot:run -Dspring-boot.run.profiles=docker --settings /root/.m2/settings-docker.xml 
+    command: mvn clean spring-boot:run --settings /root/.m2/settings-docker.xml 
+  app-front:
+    container_name: app-front
+    working_dir: /app-front
+    build: 
+      context: ./app-front
+      dockerfile: Dockerfile
+    environment:
+      BASE_URL: ${BASE_URL}
+      PROXY_HOST: ${PROXY_HOST}
+      PROXY_PORT: ${PROXY_PORT}
+    volumes:
+      - ./app-front/:/app-front
