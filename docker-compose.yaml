@@ -4,17 +4,12 @@ services:
     # 指定镜像
     container_name: v-redis
     image: redis:4
-    ports:
-      # 端口映射
-      - 6379:6379
     command:
       # 执行的命令
       redis-server --requirepass root
   mysql:
     container_name: v-mysql
     build: ./mysql
-    ports:
-      - "3306:3306"
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: "root"
@@ -30,6 +25,9 @@ services:
       - ./dockerRunningFile/maven/.m2/repository:/root/.m2/repository
     expose:
       - "8080"
+    ports:
+      # 端口映射
+      - 8080:8080
     depends_on:
       - redis
       - mysql
