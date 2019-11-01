@@ -1,8 +1,8 @@
-# build stage
+#创建node开发环境 并且进行打包
 FROM node:10.10.0-alpine as build-stage
+WORKDIR /app
 
-#中间一些操作省略...
 
-CMD npm run build
-
-# production stage
+COPY ./entryPoint.sh /
+RUN chmod +x /entryPoint.sh
+ENTRYPOINT ["/entryPoint.sh"]

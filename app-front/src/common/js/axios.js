@@ -20,7 +20,7 @@ function getInstance (divId) {
     divId = null
   }
   let $http = axios.create({
-    baseURL: serverConfig.api +'/ShopCasher'
+    baseURL: serverConfig.api
   })
   // http request 拦截器
   $http.interceptors.request.use(function (config) {
