@@ -17,7 +17,7 @@ import com.wangsheng.comm.utils.UUIDGenerator;
 public class RedisTokenManager implements TokenManager{
 
 	@Resource
-    private RedisTemplate<String,Object> redis;
+    private RedisTemplate<String,Object> redisTemplate;
 
     public String createToken(String userId) {
         String token = TokenUtils.generateTokenString();
@@ -26,7 +26,7 @@ public class RedisTokenManager implements TokenManager{
     	tokenModel.setUserId(userId);
         //使用uuid作为源token
         //存储到redis并设置过期时间
-        redis.boundValueOps(token).set(tokenModel, TokenConstants.TOKEN_EXPIRES_HOUR, TimeUnit.HOURS);
+        redisTemplate.boundValueOps(token).set(tokenModel, TokenConstants.TOKEN_EXPIRES_HOUR, TimeUnit.HOURS);
         return token;
     }
 
@@ -34,37 +34,37 @@ public class RedisTokenManager implements TokenManager{
         //使用uuid作为源token
         String token = UUIDGenerator.random();
         //存储到redis并设置过期时间
-        redis.boundValueOps(token).set(tokenModel, TokenConstants.TOKEN_EXPIRES_HOUR, TimeUnit.HOURS);
+        redisTemplate.boundValueOps(token).set(tokenModel, TokenConstants.TOKEN_EXPIRES_HOUR, TimeUnit.HOURS);
         return token;
     }
 
     public boolean checkToken(String token) {
-        Object tokenModel = redis.boundValueOps(token).get();
+        Object tokenModel = redisTemplate.boundValueOps(token).get();
         if (tokenModel == null) {
             return false;
         }
         //如果验证成功，说明此用户进行了一次有效操作，延长token的过期时间
-        redis.boundValueOps(token).expire(TokenConstants.TOKEN_EXPIRES_HOUR, TimeUnit.HOURS);
+        redisTemplate.boundValueOps(token).expire(TokenConstants.TOKEN_EXPIRES_HOUR, TimeUnit.HOURS);
         return true;
     }
     
     public TokenModel getUserFromToken(String token){
-    	Object tokenModel = redis.boundValueOps(token).get();
+    	Object tokenModel = redisTemplate.boundValueOps(token).get();
         if (tokenModel == null) {
             return null;
         }
         //如果验证成功，说明此用户进行了一次有效操作，延长token的过期时间
-        redis.boundValueOps(token).expire(TokenConstants.TOKEN_EXPIRES_HOUR, TimeUnit.HOURS);
+        redisTemplate.boundValueOps(token).expire(TokenConstants.TOKEN_EXPIRES_HOUR, TimeUnit.HOURS);
         return (TokenModel) tokenModel;
     }
 
     public void deleteToken(String token) {
-        redis.delete(token);
+        redisTemplate.delete(token);
     }
 
 	@Override
 	public void updateToken(String token, TokenModel tokenModel) {
         //存储到redis并设置过期时间
-        redis.boundValueOps(token).set(tokenModel, TokenConstants.TOKEN_EXPIRES_HOUR, TimeUnit.HOURS);
+        redisTemplate.boundValueOps(token).set(tokenModel, TokenConstants.TOKEN_EXPIRES_HOUR, TimeUnit.HOURS);
 	}
 }
