@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "t_good_abandonHis")
+@Table(name = "t_good_abandonhis")
 public class GoodInfoAbandonHis extends GoodInfo{
 
 	/**

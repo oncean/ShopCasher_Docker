@@ -125,4 +125,10 @@ public class GoodController {
 		List<GoodInfo> result = goodService.querySuggestion(req);
 		return new BaseResponse(result);
 	}
+
+	@GetMapping("/updateGoodFromWeixinServer")
+	public BaseResponse updateGoodFromWeixinServer(){
+		goodService.updateGoodFromWeixinServer();
+		return ResultConstants.SUCCESS;
+	}
 }

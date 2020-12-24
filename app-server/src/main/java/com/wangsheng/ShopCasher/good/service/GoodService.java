@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,17 +24,20 @@ import com.wangsheng.ShopCasher.good.info.GoodInfoSnap;
 import com.wangsheng.ShopCasher.good.info.QueryGoodReq;
 import com.wangsheng.ShopCasher.good.info.QueryListResult;
 import com.wangsheng.ShopCasher.good.info.QuerySuggestGoodReq;
+import com.wangsheng.ShopCasher.good.info.WxGoodInfo;
 import com.wangsheng.ShopCasher.mybatis.GoodMapper;
 import com.wangsheng.auth.comm.ResultConstants;
 import com.wangsheng.comm.utils.UUIDGenerator;
 import com.wangsheng.exception.ServiceException;
+import com.wangsheng.wx.auth.model.WxQueryEntity;
+import com.wangsheng.wx.auth.service.WxAuthService;
 
 @Service
 public class GoodService {
 
 	@Autowired
 	private GoodDao goodDao;
-	
+
 	@Autowired
 	private GoodAbandonHisDao goodAbandonHisDao;
 
@@ -41,6 +46,9 @@ public class GoodService {
 
 	@Autowired
 	private GoodMapper goodMapper;
+
+	@Autowired
+	private WxAuthService wxAuthService;
 
 	/**
 	 * 增加商品數量
@@ -140,9 +148,9 @@ public class GoodService {
 		goodInfo.setName(req.getGoodName());
 
 		/*
-		 * //创建匹配器，即如何使用查询条件 ExampleMatcher matcher = ExampleMatcher.matching()
-		 * //构建对象 .withMatcher("name", GenericPropertyMatchers.contains())
-		 * //姓名采用“包含”的方式查询 .withIgnoreNullValues() .withMatcher("code",
+		 * //创建匹配器，即如何使用查询条件 ExampleMatcher matcher = ExampleMatcher.matching() //构建对象
+		 * .withMatcher("name", GenericPropertyMatchers.contains()) //姓名采用“包含”的方式查询
+		 * .withIgnoreNullValues() .withMatcher("code",
 		 * GenericPropertyMatchers.contains()) .withIgnorePaths("price","bid");
 		 * Example<GoodInfo> example = Example.of(goodInfo, matcher);
 		 */
@@ -150,7 +158,6 @@ public class GoodService {
 		result.setTotal(goodMapper.queryGoodCount(req));
 		return result;
 	}
-	
 
 	public List<GoodInfo> querySuggestion(QuerySuggestGoodReq req) {
 		return goodMapper.querySuggestion(req);
@@ -183,12 +190,11 @@ public class GoodService {
 		}
 		return goodDao.findByCategoryInAndNameContainingAndShopId(catogeryIds, goodName, req.getShopId());
 	}
-	
+
 	@Transactional
-	public void deleteGood(String goodId) throws ServiceException{
+	public void deleteGood(String goodId) throws ServiceException {
 		GoodInfo goodInfo = goodDao.findOne(goodId);
-		if(null == goodInfo)
-		{
+		if (null == goodInfo) {
 			throw new ServiceException(ResultConstants.GOOD_NOT_FOUND);
 		}
 		GoodInfoAbandonHis goodInfoAbandonHis = new GoodInfoAbandonHis();
@@ -197,6 +203,36 @@ public class GoodService {
 		goodInfoAbandonHis.setFormerId(goodId);
 		goodAbandonHisDao.save(goodInfoAbandonHis);
 		goodDao.delete(goodId);
-		
+
 	}
+
+	@Transactional
+	public void updateGoodFromWeixinServer() {
+		String queryString = "db.collection(\"goods\").limit(20).get()";
+		String result = wxAuthService.queryDataBase(queryString);
+		JSONObject resultJson = JSONObject.parseObject(result);
+		WxQueryEntity<WxGoodInfo> collection = JSON.toJavaObject(resultJson, WxQueryEntity.class);
+		List<WxGoodInfo> list = collection.getData();
+		for (WxGoodInfo wxGoodInfo : list) {
+			GoodInfo good = goodDao.getByCodeAndShopId(wxGoodInfo.getCode(), wxGoodInfo.getShopId());
+			if (good == null) {
+				good = new GoodInfo();
+				good.setId(UUIDGenerator.randomID());
+				BeanUtils.copyProperties(wxGoodInfo, good);
+				good.setPicUrl(wxGoodInfo.getPicId());
+				goodDao.save(good);
+			} else if (good.getUpdateTime().before(wxGoodInfo.getUpdateTime())) {
+				BeanUtils.copyProperties(wxGoodInfo, good);
+				good.setPicUrl(wxGoodInfo.getPicId());
+				goodDao.save(good);
+			} else {
+				BeanUtils.copyProperties(good, wxGoodInfo);
+				String jsonString = JSON.toJSONString(wxGoodInfo);
+				wxAuthService.updateDateBase(
+						"db.collection(\"goods\").doc(" + wxGoodInfo.get_id() + ").update({data:" + jsonString + "})");
+			}
+		}
+
+	}
+
 }
