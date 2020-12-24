@@ -2778,10 +2778,10 @@ date-now@^0.1.4:
   resolved "http://registry.npm.taobao.org/date-now/download/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
   integrity sha1-6vQ5/U1ISK105cx9vvIAZyueNFs=
 
-daycaca@^1.0.6:
+daycaca@^1.0.11, daycaca@^1.0.6:
   version "1.0.11"
-  resolved "http://registry.npm.taobao.org/daycaca/download/daycaca-1.0.11.tgz#35fd9ee928ffad647a1812b398015673a11cdf11"
-  integrity sha1-Nf2e6Sj/rWR6GBKzmAFWc6Ec3xE=
+  resolved "https://registry.yarnpkg.com/daycaca/-/daycaca-1.0.11.tgz#35fd9ee928ffad647a1812b398015673a11cdf11"
+  integrity sha512-2SJTpnpmxUGVWbFPTRhaZLvisCD7bYjvuFpLAhjfAAvtnBb26dAqIqaZ9Jq8yvSlugpEGY+v/YXHXGP3paVV9A==
 
 de-indent@^1.0.2:
   version "1.0.2"
@@ -5243,9 +5243,9 @@ lodash.debounce@^4.0.8:
   integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
 
 lodash.defaultsdeep@^4.6.0:
-  version "4.6.0"
-  resolved "http://registry.npm.taobao.org/lodash.defaultsdeep/download/lodash.defaultsdeep-4.6.0.tgz#bec1024f85b1bd96cbea405b23c14ad6443a6f81"
-  integrity sha1-vsECT4WxvZbL6kBbI8FK1kQ6b4E=
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/lodash.defaultsdeep/-/lodash.defaultsdeep-4.6.1.tgz#512e9bd721d272d94e3d3a63653fa17516741ca6"
+  integrity sha512-3j8wdDzYuWO3lM3Reg03MuQR957t287Rpcxp1njpEa8oDrikb+FwGdW3n+FELh/A6qib6yPit0j/pv9G/yeAqA==
 
 lodash.find@^4.6.0:
   version "4.6.0"
