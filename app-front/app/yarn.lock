@@ -2778,10 +2778,10 @@ date-now@^0.1.4:
   resolved "http://registry.npm.taobao.org/date-now/download/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
   integrity sha1-6vQ5/U1ISK105cx9vvIAZyueNFs=
 
-daycaca@^1.0.6:
+daycaca@^1.0.11, daycaca@^1.0.6:
   version "1.0.11"
-  resolved "http://registry.npm.taobao.org/daycaca/download/daycaca-1.0.11.tgz#35fd9ee928ffad647a1812b398015673a11cdf11"
-  integrity sha1-Nf2e6Sj/rWR6GBKzmAFWc6Ec3xE=
+  resolved "https://registry.yarnpkg.com/daycaca/-/daycaca-1.0.11.tgz#35fd9ee928ffad647a1812b398015673a11cdf11"
+  integrity sha512-2SJTpnpmxUGVWbFPTRhaZLvisCD7bYjvuFpLAhjfAAvtnBb26dAqIqaZ9Jq8yvSlugpEGY+v/YXHXGP3paVV9A==
 
 de-indent@^1.0.2:
   version "1.0.2"
@@ -4263,9 +4263,9 @@ hoopy@^0.1.2:
   integrity sha1-YJIH1mEQADOpqUAq096mdzgcGx0=
 
 hosted-git-info@^2.1.4:
-  version "2.7.1"
-  resolved "http://registry.npm.taobao.org/hosted-git-info/download/hosted-git-info-2.7.1.tgz#97f236977bd6e125408930ff6de3eec6281ec047"
-  integrity sha1-l/I2l3vW4SVAiTD/bePuxigewEc=
+  version "2.8.9"
+  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.8.9.tgz#dffc0bf9a21c02209090f2aa69429e1414daf3f9"
+  integrity sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==
 
 hpack.js@^2.1.6:
   version "2.1.6"
