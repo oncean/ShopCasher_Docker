@@ -2778,10 +2778,10 @@ date-now@^0.1.4:
   resolved "http://registry.npm.taobao.org/date-now/download/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
   integrity sha1-6vQ5/U1ISK105cx9vvIAZyueNFs=
 
-daycaca@^1.0.6:
+daycaca@^1.0.11, daycaca@^1.0.6:
   version "1.0.11"
-  resolved "http://registry.npm.taobao.org/daycaca/download/daycaca-1.0.11.tgz#35fd9ee928ffad647a1812b398015673a11cdf11"
-  integrity sha1-Nf2e6Sj/rWR6GBKzmAFWc6Ec3xE=
+  resolved "https://registry.yarnpkg.com/daycaca/-/daycaca-1.0.11.tgz#35fd9ee928ffad647a1812b398015673a11cdf11"
+  integrity sha512-2SJTpnpmxUGVWbFPTRhaZLvisCD7bYjvuFpLAhjfAAvtnBb26dAqIqaZ9Jq8yvSlugpEGY+v/YXHXGP3paVV9A==
 
 de-indent@^1.0.2:
   version "1.0.2"
@@ -5292,7 +5292,12 @@ lodash.uniq@^4.5.0:
   resolved "http://registry.npm.taobao.org/lodash.uniq/download/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-lodash@^4.0.0, lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0, lodash@latest, lodash@~4.17.10:
+lodash@^4.0.0, lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.21, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0, lodash@~4.17.10:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
+
+lodash@latest:
   version "4.17.11"
   resolved "http://registry.npm.taobao.org/lodash/download/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha1-s56mIp72B+zYniyN8SU2iRysm40=

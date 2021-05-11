@@ -16,7 +16,7 @@
     "echarts": "^4.1.0",
     "element-ui": "^2.5.1",
     "iview": "^3.2.2",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.21",
     "moment": "^2.22.2",
     "normalize-wheel": "^1.0.1",
     "quagga": "^0.12.1",
